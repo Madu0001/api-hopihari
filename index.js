@@ -4,9 +4,8 @@ const cors = require("cors");
 const helmet = require("helmet");
 const bodyParsen = require("body-parser");
 
-const usuariosRoute = require("./routes/login.route");
-const cadastroRoute = require("./routes/cadastro.route");
-const atualizarUsuarioRoute = require("./routes/atualizarUsuario.route");
+const usuariosRoute = require("./routes/usuarios.route");
+const filasRoute = require("./routes/filas.routes")
 
 app.use(cors());
 app.use(helmet());
@@ -28,8 +27,6 @@ app.use((req, res, next) => {
 });
 
 app.use("/usuarios", usuariosRoute);
-app.use("/cadastro", cadastroRoute);
-app.use("/atualizar", atualizarUsuarioRoute);
-
+app.use("/filas", filasRoute);
 
 module.exports = app;
