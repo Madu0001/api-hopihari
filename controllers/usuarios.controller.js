@@ -67,7 +67,7 @@ exports.login = async (req, res) => {
             return res.status(401).send({ "Mensagem": "Usuario não cadastrado!" });
         }
         
-        const  match = await bcrypt.compare(usuario[0].password, req.body.password);
+        const  match = await bcrypt.compare(req.body.password, usuario[0].password);
         if (!match) {
             return res.status(401).send({ "Mensagem": "Senha incorreta!" });
         }
@@ -81,7 +81,7 @@ exports.login = async (req, res) => {
             birth_date: usuario[0].birth_date,
         }, "senhadojwt")
 
-
+        return res.status(201).send({"Mensagem": "Usuario cadastrado com Sucesso", "token": token})
     } catch (error) {
         return res.status(500).send(error);
     }

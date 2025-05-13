@@ -9,7 +9,7 @@ exports.required=async (req, res, next) => {
 
         if (decode.id) {
             res.locals.idUsuario = decode.id;
-            next ();
+            next();
         } else {
             return res.status(401).send ({"Mensagem": "Usuario não Autenticado"})
         }
