@@ -79,7 +79,8 @@ exports.login = async (req, res) => {
             last_name: usuario [0].last_name,
             email: usuario[0].email,
             birth_date: usuario[0].birth_date,
-        }, "senhadojwt")
+            phone: usuario[0].phone,
+        }, "senhajwt");
 
         return res.status(201).send({"Mensagem": "Usuario cadastrado com Sucesso", "token": token})
     } catch (error) {
