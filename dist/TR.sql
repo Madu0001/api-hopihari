@@ -1,34 +1,26 @@
-USE hopi_hari_db;
-
-DESC hopi_hari_db.lines;
-SELECT * FROM users; #5
-
-
-SELECT * FROM rides; #8
-SELECT * FROM hopi_hari_db.lines;
-
-INSERT INTO hopi_hari_db.lines (rides_id, users_id) VALUES (8, 5);
-
-SELECT waiting_time FROM rides WHERE id = 8;
-SELECT COUNT(users_id) FROM hopi_hari_db.lines WHERE rides_id = 8;
-
 DELIMITER $$
-	CREATE TRIGGER after_insert_lines
-    AFTER INSERT ON hopi_hari_db.lines
-    FOR EACH ROW
-    BEGIN
+	create  trigger after_insert_lines
+    after insert on hopi_hari_db.lines
+    for each row 
+    begin
+    
+		declare wait_time int;
+        declare line_count int;
+        declare total_wait int;
+    
 
-	DECLARE wait_time INT;
-    DECLARE line_count INT;
-    DECLARE total_wait INT;
+	select waiting_time into wait_time
+    from rides 
+    where id = NEW.rides_id;
     
-    SELECT waiting_time INTO wait_time
-    FROM rides
-    WHERE id_ride = NEW.rides_id;
-    
-    SELECT COUNT(id) INTO line_count
-    FROM hopi_hari_db.lines
-    WHERE rides_id = NEW.rides_id;
-    
-    SET total_wait = wait_time * line_count;
+
+select count(users_id) into line_count
+from hopi_hari_db.lines
+ where rides_id = NEW .rides_id;
+ 
+ set total_wait = wait_time * line_count;
+ 
+insert into notifications (description, status, rides_id, users_id)
+values (concat(total_wait, "minutos de espera para o brinquedo"), true,  NEW .rides_id,  NEW .users_id);
+END $$
 DELIMITER ;
