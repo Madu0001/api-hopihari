@@ -72,7 +72,6 @@ exports.login = async (req, res) => {
             return res.status(401).send({ "Mensagem": "Senha incorreta!" });
         }
 
-
         const token = jwt.sign({
             id: usuario[0].id,
             first_name: usuario[0].first_name,
@@ -81,6 +80,18 @@ exports.login = async (req, res) => {
             birth_date: usuario[0].birth_date,
             phone: usuario[0].phone,
         }, "senhajwt");
+
+        return res.status(200).send({
+            "Mensagem": "Usuario autenticado com Sucesso",
+            "token": token,
+            "user": {
+                "firstName": usuario[0].first_name,
+                "last_name": usuario [0].last_name,
+                "email": usuario[0].email,
+                "birth_date": usuario[0].birth_date,
+                "phone": usuario[0].phone,
+            }
+        });
 
         return res.status(201).send({"Mensagem": "Usuario cadastrado com Sucesso", "token": token})
     } catch (error) {
